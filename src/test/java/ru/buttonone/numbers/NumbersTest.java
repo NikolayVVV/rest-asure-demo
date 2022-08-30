@@ -40,12 +40,16 @@ public class NumbersTest {
     public void shouldHaveCorrectGetMath(){
         RestAssured
                 .given()
+                .header(new Header("language", "fr"))
                 .baseUri(NUMBERS_URL)
                 .when()
                 .get("/8/math")
                 .then()
                 .contentType(ContentType.TEXT)
                 .log().all()
+                .header("X-Numbers-API-Number", "8")
+                .header("X-Numbers-API-Type", "math")
+                .header("Expires", "0")
                 .statusCode(200);
     }
 
@@ -60,6 +64,9 @@ public class NumbersTest {
                 .then()
                 .contentType(ContentType.TEXT)
                 .log().all()
+                .header("Expires", "0")
+                .header("X-Powered-By", "Express")
+                .header("X-Numbers-API-Type","date")
                 .statusCode(200);
     }
 
