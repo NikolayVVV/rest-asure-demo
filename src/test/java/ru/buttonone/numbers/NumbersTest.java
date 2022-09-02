@@ -21,6 +21,7 @@ import static io.restassured.RestAssured.given;
 public class NumbersTest {
 
     public static final String NUMBERS_URL = "http://numbersapi.com/";
+    public static final String NUMBERS_URL404 = "https://hakim.se/404";
     public static final String ID_PATH = "/{id}";
     public NumbersSpecifications numbersSpecifications;
 
@@ -28,7 +29,7 @@ public class NumbersTest {
     @DisplayName("Testing numbersapi with 2")
     @Test
     public void shouldHaveCorrectGet2() {
-//        Response response = RestAssured.given().get("http://numbersapi.com/");
+//        Response response = RestAssured.given().get("https://hakim.se/404/");
 //        response.prettyPrint();
 //
 //        System.out.println("response.statusCode() = " + response.statusCode());
@@ -99,30 +100,27 @@ public class NumbersTest {
     @Test
     public void shouldCheckAnotherStatusCode() {
         given()
-                .spec(NumbersSpecifications.defaultRequestSpecification())
+                .header("Accept-Language", "ru")
                 .when()
-                .get("/8/27/date")
+                .get(NUMBERS_URL404)
                 .then()
-                .contentType(ContentType.TEXT)
-                .header("Expires", "0")
-                .header("X-Powered-By", "Express")
-                .header("X-Numbers-API-Type", "date")
-                .spec(NumbersSpecifications.defaultResponseSpecification(400));
+                .contentType(ContentType.HTML)
+                .spec(NumbersSpecifications.defaultResponseSpecification(404));
     }
 
     @DisplayName("Testing numbersapi with incorrect content type")
     @Test
-    public void shouldCheckAnotherContentType() {
+    public void shouldCheckIncorrectId() {
         given()
                 .spec(NumbersSpecifications.defaultRequestSpecification())
                 .when()
-                .get("/8/27/date")
+                .get("/8/27/dati")
                 .then()
                 .contentType(ContentType.HTML)
-                .header("Expires", "0")
+//                .header("Expires", "0")
                 .header("X-Powered-By", "Express")
-                .header("X-Numbers-API-Type", "date")
-                .spec(NumbersSpecifications.defaultResponseSpecification(400));
+                .header("Content-Encoding", "gzip")
+                .spec(NumbersSpecifications.defaultResponseSpecification(404));
     }
 
 
