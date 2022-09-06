@@ -21,15 +21,16 @@ import static io.restassured.RestAssured.given;
 public class NumbersTest {
 
     public static final String NUMBERS_URL = "http://numbersapi.com/";
-    public static final String NUMBERS_URL404 = "https://hakim.se/404";
     public static final String ID_PATH = "/{id}";
-    public NumbersSpecifications numbersSpecifications;
+    public static final String DATE = "/8/27/date";
+    public static final String INCORRECT_URL_WITH_SYMBOLS_INSTEAD_OF_NUMBER = "/8/d/date";
+    public static final String URL_WITH_SPACE = "/8//dati";
 
 
     @DisplayName("Testing numbersapi with 2")
     @Test
     public void shouldHaveCorrectGet2() {
-//        Response response = RestAssured.given().get("https://hakim.se/404/");
+//        Response response = RestAssured.given().get("http://numbersapi.com/");
 //        response.prettyPrint();
 //
 //        System.out.println("response.statusCode() = " + response.statusCode());
@@ -69,8 +70,7 @@ public class NumbersTest {
         given()
                 .spec(NumbersSpecifications.defaultRequestSpecification())
                 .when()
-                .pathParam("id", "8")//не понимаю как изменять этот параметр
-                //например 8/math или как /8/27/date выставить именно через pathParam
+                .pathParam("id", "8")
                 .get(ID_PATH)
                 .then()
                 .contentType(ContentType.TEXT)
@@ -86,7 +86,7 @@ public class NumbersTest {
         given()
                 .spec(NumbersSpecifications.defaultRequestSpecification())
                 .when()
-                .get("/8/27/date")
+                .get(DATE)
                 .then()
                 .contentType(ContentType.TEXT)
                 .header("Expires", "0")
@@ -96,28 +96,28 @@ public class NumbersTest {
     }
 
 
-    @DisplayName("Testing numbersapi with incorrect status code")
+    @DisplayName("Testing numbersapi with incorrect url with symbols instead of number")
     @Test
     public void shouldCheckAnotherStatusCode() {
         given()
+                .spec(NumbersSpecifications.defaultRequestSpecification())
                 .header("Accept-Language", "ru")
                 .when()
-                .get(NUMBERS_URL404)
+                .get(INCORRECT_URL_WITH_SYMBOLS_INSTEAD_OF_NUMBER)
                 .then()
                 .contentType(ContentType.HTML)
                 .spec(NumbersSpecifications.defaultResponseSpecification(404));
     }
 
-    @DisplayName("Testing numbersapi with incorrect content type")
+    @DisplayName("Testing numbersapi with incorrect url with space")
     @Test
     public void shouldCheckIncorrectId() {
         given()
                 .spec(NumbersSpecifications.defaultRequestSpecification())
                 .when()
-                .get("/8/27/dati")
+                .get(URL_WITH_SPACE)
                 .then()
                 .contentType(ContentType.HTML)
-//                .header("Expires", "0")
                 .header("X-Powered-By", "Express")
                 .header("Content-Encoding", "gzip")
                 .spec(NumbersSpecifications.defaultResponseSpecification(404));
