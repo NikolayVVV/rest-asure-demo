@@ -47,17 +47,13 @@ public class LotrTest {
                 .body()
                 .jsonPath().getList("docs", Book.class);
 
-        System.out.println("bookList = " + bookList);
-
 
         //1
         Assertions.assertAll(
                 () -> assertTrue(bookList.stream().anyMatch(b -> b.getName().
-                        equals("The Fellowship Of The Ring")))
+                        equals("The Fellowship Of The Ring"))),
+                () -> assertThat(bookList, hasItem(new Book("The Fellowship Of The Ring")))
         );
-
-        //2
-        assertThat(bookList, hasItem(new Book("The Fellowship Of The Ring")));
 
         MatcherAssert.assertThat(bookList, Matchers.containsInAnyOrder
                 (new Book("The Fellowship Of The Ring"),
@@ -85,47 +81,42 @@ public class LotrTest {
                 .body()
                 .jsonPath().getList("docs", Chapter.class);
 
-        System.out.println("chaptersList = " + chaptersList);
 ////
 ////        //1
         Assertions.assertAll(
                 () -> assertTrue(chaptersList.stream().anyMatch(b -> b.getChapterName().
-                        equals("The Mirror of Galadriel")))
-        );
-        Assertions.assertAll(
+                        equals("The Mirror of Galadriel"))),
                 () -> assertTrue(chaptersList.stream().anyMatch(b -> b.getId().
-                        equals("6091b6d6d58360f988133b8c")))
+                        equals("6091b6d6d58360f988133b8c"))),
+                () -> assertThat(chaptersList, hasItem(new Chapter("The Bridge of Khazad-dûm"))),
+                () -> assertThat(chaptersList, hasSize(22))
         );
 
-////
-////        //2
-        assertThat(chaptersList, hasItem(new Chapter("In the House of Tom Bombadil")));
-        assertThat(chaptersList, hasSize(22));
-//
-//        MatcherAssert.assertThat(chaptersList, Matchers.containsInAnyOrder
-//                (new Chapter("A Long-expected Party"),
-//                        new Chapter("The Shadow of the Past"),
-//                        new Chapter("Three is Company"),
-//                        new Chapter("A Short Cut to Mushrooms"),
-//                        new Chapter("A Conspiracy Unmasked"),
-//                        new Chapter("The Old Forest"),
-//                        new Chapter("In the House of Tom Bombadil"),
-//                        new Chapter("Fog on the Barrow-Downs"),
-//                        new Chapter("At the Sign of The Prancing Pony"),
-//                        new Chapter("Strider"),
-//                        new Chapter("A Knife in the Dark"),
-//                        new Chapter("Flight to the Ford"),
-//                        new Chapter("Many Meetings"),
-//                        new Chapter("The Council of Elrond"),
-//                        new Chapter("The Ring Goes South"),
-//                        new Chapter("A Journey in the Dark"),
-//                        new Chapter("The Bridge of Khazad-dûm"),  //какая-то проблема с этой главой - падает
-//                        new Chapter("Lothlórien"),
-//                        new Chapter("The Mirror of Galadriel"),
-//                        new Chapter("Farewell to Lórien"),
-//                        new Chapter("The Great River"),
-//                        new Chapter("The Breaking of the Fellowship")
-//                ));
+
+        MatcherAssert.assertThat(chaptersList, Matchers.containsInAnyOrder
+                (new Chapter("A Long-expected Party"),
+                        new Chapter("The Shadow of the Past"),
+                        new Chapter("Three is Company"),
+                        new Chapter("A Short Cut to Mushrooms"),
+                        new Chapter("A Conspiracy Unmasked"),
+                        new Chapter("The Old Forest"),
+                        new Chapter("In the House of Tom Bombadil"),
+                        new Chapter("Fog on the Barrow-Downs"),
+                        new Chapter("At the Sign of The Prancing Pony"),
+                        new Chapter("Strider"),
+                        new Chapter("A Knife in the Dark"),
+                        new Chapter("Flight to the Ford"),
+                        new Chapter("Many Meetings"),
+                        new Chapter("The Council of Elrond"),
+                        new Chapter("The Ring Goes South"),
+                        new Chapter("A Journey in the Dark"),
+                        new Chapter("The Bridge of Khazad-dûm"),  //какая-то проблема с этой главой - падает
+                        new Chapter("Lothlórien"),
+                        new Chapter("The Mirror of Galadriel"),
+                        new Chapter("Farewell to Lórien"),
+                        new Chapter("The Great River"),
+                        new Chapter("The Breaking of the Fellowship")
+                ));
 //
     }
 
@@ -147,19 +138,17 @@ public class LotrTest {
                 .body()
                 .jsonPath().getList("docs", Chapter.class);
 
-        System.out.println("chaptersList = " + chaptersList);
 //
 //        //1
         Assertions.assertAll(
                 () -> assertTrue(chaptersList.stream().anyMatch(b -> b.getChapterName().
-                        equals("The Departure of Boromir")))
+                        equals("The Departure of Boromir"))),
+                () -> assertThat(chaptersList, hasItem(new Chapter("The Riders of Rohan"))),
+                () -> assertThat(chaptersList, hasSize(21)),
+                () -> assertThat(chaptersList, hasItems(new Chapter("The Choices of Master Samwise"),
+                        new Chapter("Shelob's Lair")))
         );
-//
-//        //2
-        assertThat(chaptersList, hasItem(new Chapter("The Riders of Rohan")));
-        assertThat(chaptersList, hasSize(21));
-        assertThat(chaptersList, hasItems(new Chapter("The Choices of Master Samwise"),
-                new Chapter("Shelob's Lair")));
+
 
         MatcherAssert.assertThat(chaptersList, Matchers.containsInAnyOrder
                 (new Chapter("The Departure of Boromir"),
