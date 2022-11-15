@@ -47,6 +47,7 @@ public class LotrTest {
                 .body()
                 .jsonPath().getList("docs", Book.class);
 
+        System.out.println("bookList = " + bookList);
 
         //1
         Assertions.assertAll(
